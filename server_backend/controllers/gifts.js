@@ -40,4 +40,4 @@ export const deleteGift = async (req, res) => {
     } catch (error) {
         res.status(409).json({ error: error.message })
     }
-    }
+}
