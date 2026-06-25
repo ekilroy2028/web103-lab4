@@ -4,32 +4,24 @@ import { useRoutes } from 'react-router-dom'
 import Gifts from './pages/Gifts'
 import GiftDetails from './pages/GiftDetails'
 import PageNotFound from './pages/PageNotFound'
+import CreateGift from './pages/CreateGift'
+import EditGift from './pages/EditGift'
 import { Link } from 'react-router-dom'
-
 
 const App = () => {
   
   const [gifts, setGifts] = useState([]);
-
-
   useEffect(() => {
-
     const fetchGifts = async () => {
-
       const url = 'http://localhost:3000/gifts/'
       const response = await fetch(url);
       const json = await response.json();
-
       setGifts(json);
       return json;
     }
-
     fetchGifts();
-
   }, []);
 
-
-  // Sets up routes
   let element = useRoutes([
     {
       path: "/",
@@ -40,16 +32,21 @@ const App = () => {
       element: <GiftDetails data={gifts} />
     },
     {
+      path: '/new',
+      element: <CreateGift />
+    },
+    {
+      path: '/edit/:id',
+      element: <EditGift data={gifts} />
+    },
+    {
       path:"/*",
       element: <PageNotFound />
     }
   ]);
-
   
   return ( 
-
     <div className="App">
-
       <header>
         <div className="header-container">
           <div className="header-left">
@@ -58,15 +55,13 @@ const App = () => {
           </div>
           <div className="header-right">
             <Link to="/"><button className="homeBtn">Home</button></Link>
+            <Link to='/new'><button className='addBtn'>+ Add Gift</button></Link>
           </div>
         </div>
       </header>
-
         {element}
         
     </div>
-
   );
 }
-
 export default App;
